@@ -6,6 +6,20 @@ import java.util.Arrays;
 public class PrinterCommand {
 
     /**
+     * set std mode
+     */
+    public static byte[] PM_setStdMode() {
+        return new byte[]{27, 83};
+    }
+
+    /**
+     * set page mode for picture
+     */
+    public static byte[] setPageMode() {
+        return new byte[]{27, 76};
+    }
+
+    /**
      * 打印机初始化
      *
      * @return

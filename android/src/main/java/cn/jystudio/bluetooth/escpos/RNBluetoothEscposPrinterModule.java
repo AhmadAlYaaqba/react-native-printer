@@ -351,6 +351,41 @@ public class RNBluetoothEscposPrinterModule extends ReactContextBaseJavaModule
         }
     }
 
+    @ReactMethod
+    public void printImageFull(String base64encodeStr, @Nullable  ReadableMap options) {
+        int width = 0;
+        int height = 0;
+        int start_x = 0;
+        int start_y = 0;
+        if(options!=null){
+            width = options.hasKey("width") ? options.getInt("width") : 0;
+            height = options.hasKey("height") ? options.getInt("height") : 0;
+            start_x = options.hasKey("start_x") ? options.getInt("start_x") : 0;
+            start_y = options.hasKey("start_y") ? options.getInt("start_y") : 0;
+        }
+
+
+        byte[] bytes = Base64.decode(base64encodeStr, Base64.DEFAULT);
+        Bitmap mBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        int nMode = 0;
+        if (mBitmap != null) {
+            /**
+             * Parameters:
+             * mBitmap  要打印的图片
+             * nWidth   打印宽度（58和80）
+             * nMode    打印模式
+             * Returns: byte[]
+             */
+            // byte[] data = PrintPicture.drawBitmap(start_x, start_y, mBitmap);
+            byte[] data = PrintPicture.fastPrintBitmap(start_x, start_y, width, height, mBitmap);
+            //	SendDataByte(buffer);
+            // sendDataByte(Command.ESC_Init);
+            // sendDataByte(Command.SELECT_BIT_IMAGE_MODE);
+            sendDataByte(PrinterCommand.setPageMode());
+            sendDataByte(data);
+            sendDataByte(PrinterCommand.PM_setStdMode());
+        }
+    }
 
     @ReactMethod
     public void selfTest(@Nullable Callback cb) {
