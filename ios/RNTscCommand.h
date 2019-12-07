@@ -6,7 +6,7 @@
 //  Copyright © 2018年 Facebook. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-#import <React/RCTBridgeModule.h>
+#import "RCTBridgeModule.h"
 @interface RNTscCommand : NSObject
 @property NSMutableData *command;
 -(id)init;
